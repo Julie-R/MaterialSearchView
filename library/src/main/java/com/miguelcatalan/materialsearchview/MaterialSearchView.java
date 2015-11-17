@@ -57,6 +57,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private ImageButton mBackBtn;
     private ImageButton mVoiceBtn;
     private ImageButton mEmptyBtn;
+    private ImageButton mFilterBtn;
     private RelativeLayout mSearchTopBar;
 
     private CharSequence mOldQueryText;
@@ -64,6 +65,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     private OnQueryTextListener mOnQueryChangeListener;
     private SearchViewListener mSearchViewListener;
+    private OnFilterClickListener mOnFilterClickListener;
 
     private ListAdapter mAdapter;
 
@@ -120,6 +122,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 setCloseIcon(a.getDrawable(R.styleable.MaterialSearchView_searchCloseIcon));
             }
 
+            if (a.hasValue(R.styleable.MaterialSearchView_searchFilterIcon)) {
+                setFilterIcon(a.getDrawable(R.styleable.MaterialSearchView_searchFilterIcon));
+            }
+
             if (a.hasValue(R.styleable.MaterialSearchView_searchBackIcon)) {
                 setBackIcon(a.getDrawable(R.styleable.MaterialSearchView_searchBackIcon));
             }
@@ -145,6 +151,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mSearchSrcTextView = (EditText) mSearchLayout.findViewById(R.id.searchTextView);
         mBackBtn = (ImageButton) mSearchLayout.findViewById(R.id.action_up_btn);
         mVoiceBtn = (ImageButton) mSearchLayout.findViewById(R.id.action_voice_btn);
+        mFilterBtn = (ImageButton) mSearchLayout.findViewById(R.id.action_filter_btn);
         mEmptyBtn = (ImageButton) mSearchLayout.findViewById(R.id.action_empty_btn);
         mTintView = mSearchLayout.findViewById(R.id.transparent_view);
 
@@ -153,6 +160,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mVoiceBtn.setOnClickListener(mOnClickListener);
         mEmptyBtn.setOnClickListener(mOnClickListener);
         mTintView.setOnClickListener(mOnClickListener);
+        mFilterBtn.setOnClickListener(mOnClickListener);
 
         allowVoiceSearch = false;
 
@@ -221,9 +229,17 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 showSuggestions();
             } else if (v == mTintView) {
                 closeSearch();
+            } else if (v == mFilterBtn) {
+                onFilterClicked();
             }
         }
     };
+
+    private void onFilterClicked() {
+        if(mOnFilterClickListener != null) {
+            mOnFilterClickListener.onFilterClick();
+        }
+    }
 
     private void onVoiceClicked() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -328,6 +344,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mBackBtn.setImageDrawable(drawable);
     }
 
+    public void setFilterIcon(Drawable drawable) {
+        mFilterBtn.setImageDrawable(drawable);
+    }
+
     public void setSuggestionIcon(Drawable drawable) {
         suggestionIcon = drawable;
     }
@@ -353,6 +373,11 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     public void setVoiceSearch(boolean voiceSearch) {
         allowVoiceSearch = voiceSearch;
+    }
+
+    public void setFilter(boolean filter, OnFilterClickListener onFilterClickListener) {
+        mOnFilterClickListener = onFilterClickListener;
+        mFilterBtn.setVisibility(filter ? VISIBLE : GONE);
     }
 
     //Public Methods
@@ -695,6 +720,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         void onSearchViewShown();
 
         void onSearchViewClosed();
+    }
+
+    public interface OnFilterClickListener {
+        void onFilterClick();
     }
 
 

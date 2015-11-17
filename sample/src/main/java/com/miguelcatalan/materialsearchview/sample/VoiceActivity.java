@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -30,6 +31,12 @@ public class VoiceActivity extends AppCompatActivity {
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
         searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+        searchView.setFilter(true, new MaterialSearchView.OnFilterClickListener() {
+            @Override
+            public void onFilterClick() {
+                Toast.makeText(VoiceActivity.this, "OnFilterClick", Toast.LENGTH_SHORT).show();
+            }
+        });
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

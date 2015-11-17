@@ -47,15 +47,24 @@
             <ImageButton
                 android:id="@+id/action_voice_btn"
                 style="@style/MSV_ImageButton"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/action_filter_btn"
+                android:layout_alignWithParentIfMissing="true"
                 android:src="@drawable/ic_action_voice_search" />
 
             <ImageButton
                 android:id="@+id/action_empty_btn"
                 style="@style/MSV_ImageButton"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/action_filter_btn"
+                android:layout_alignWithParentIfMissing="true"
                 android:src="@drawable/ic_action_navigation_close"
                 android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/action_filter_btn"
+                style="@style/MSV_ImageButton"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_action_filter"
+                android:visibility="gone"/>
 
             <View
                 android:layout_width="match_parent"
