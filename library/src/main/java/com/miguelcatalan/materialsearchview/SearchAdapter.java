@@ -1,7 +1,6 @@
 package com.miguelcatalan.materialsearchview;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,29 +16,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Suggestions Adapter.
+ *
  * @author Miguel Catalan Bañuls
  */
 public class SearchAdapter extends BaseAdapter implements Filterable {
 
     private ArrayList<String> data;
-
-    private String[] typeAheadData;
-
+    private String[] suggestions;
     private Drawable suggestionIcon;
+    private LayoutInflater inflater;
+    private boolean ellipsize;
 
-    LayoutInflater inflater;
-
-    public SearchAdapter(Context context, String[] typeAheadData) {
+    public SearchAdapter(Context context, String[] suggestions) {
         inflater = LayoutInflater.from(context);
         data = new ArrayList<>();
-        this.typeAheadData = typeAheadData;
+        this.suggestions = suggestions;
     }
 
-    public SearchAdapter(Context context, String[] typeAheadData, Drawable suggestionIcon) {
+    public SearchAdapter(Context context, String[] suggestions, Drawable suggestionIcon, boolean ellipsize) {
         inflater = LayoutInflater.from(context);
         data = new ArrayList<>();
-        this.typeAheadData = typeAheadData;
+        this.suggestions = suggestions;
         this.suggestionIcon = suggestionIcon;
+        this.ellipsize = ellipsize;
     }
 
     @Override
@@ -49,12 +49,13 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (!TextUtils.isEmpty(constraint)) {
+
                     // Retrieve the autocomplete results.
                     List<String> searchData = new ArrayList<>();
 
-                    for (String str : typeAheadData) {
-                        if (str.toLowerCase().startsWith(constraint.toString().toLowerCase())) {
-                            searchData.add(str);
+                    for (String string : suggestions) {
+                        if (string.toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                            searchData.add(string);
                         }
                     }
 
@@ -93,29 +94,34 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        MyViewHolder mViewHolder;
+
+        SuggestionsViewHolder viewHolder;
 
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.suggest_item, parent, false);
-            mViewHolder = new MyViewHolder(convertView);
-            convertView.setTag(mViewHolder);
+            viewHolder = new SuggestionsViewHolder(convertView);
+            convertView.setTag(viewHolder);
         } else {
-            mViewHolder = (MyViewHolder) convertView.getTag();
+            viewHolder = (SuggestionsViewHolder) convertView.getTag();
         }
 
         String currentListData = (String) getItem(position);
 
-        mViewHolder.textView.setText(currentListData);
-
+        viewHolder.textView.setText(currentListData);
+        if (ellipsize) {
+            viewHolder.textView.setSingleLine();
+            viewHolder.textView.setEllipsize(TextUtils.TruncateAt.END);
+        }
 
         return convertView;
     }
 
-    private class MyViewHolder {
+    private class SuggestionsViewHolder {
+
         TextView textView;
         ImageView imageView;
 
-        public MyViewHolder(View convertView) {
+        public SuggestionsViewHolder(View convertView) {
             textView = (TextView) convertView.findViewById(R.id.suggestion_text);
             if (suggestionIcon != null) {
                 imageView = (ImageView) convertView.findViewById(R.id.suggestion_icon);
