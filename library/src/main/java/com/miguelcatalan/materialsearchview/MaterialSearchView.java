@@ -2,6 +2,7 @@ package com.miguelcatalan.materialsearchview;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -17,7 +18,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -241,7 +241,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     };
 
     private void onFilterClicked() {
-        if(mOnFilterClickListener != null) {
+        if (mOnFilterClickListener != null) {
             mOnFilterClickListener.onFilterClick();
         }
     }
@@ -253,8 +253,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);    // quantity of results we want to receive
         if (mContext instanceof Activity) {
             ((Activity) mContext).startActivityForResult(intent, REQUEST_VOICE);
-        } else if (mContext instanceof ContextThemeWrapper) {
-            ((Activity) (((ContextThemeWrapper) mContext).getBaseContext())).startActivityForResult(intent, REQUEST_VOICE);
+        } else if (mContext instanceof ContextWrapper) {
+            ((Activity) (((ContextWrapper) mContext).getBaseContext())).startActivityForResult(intent, REQUEST_VOICE);
         }
     }
 
@@ -389,7 +389,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     //Public Methods
 
     /**
-     * Call this method to show suggestions list. This shows up when adapter is set. Call {@link #setAdapter(ListAdapter)} before calling this.
+     * Call this method to show suggestions list. This shows up when adapter is set. Call {@link
+     * #setAdapter(ListAdapter)} before calling this.
      */
     public void showSuggestions() {
         if (mAdapter != null && mAdapter.getCount() > 0 && mSuggestionsListView.getVisibility() == GONE) {
@@ -408,8 +409,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     /**
      * Set Suggest List OnItemClickListener
-     *
-     * @param listener
      */
     public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
         mSuggestionsListView.setOnItemClickListener(listener);
@@ -417,8 +416,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     /**
      * Set Adapter for suggestions list. Should implement Filterable.
-     *
-     * @param adapter
      */
     public void setAdapter(ListAdapter adapter) {
         mAdapter = adapter;
@@ -459,10 +456,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
 
     /**
-     * Calling this will set the query to search text box. if submit is true, it'll submit the query.
-     *
-     * @param query
-     * @param submit
+     * Calling this will set the query to search text box. if submit is true, it'll submit the
+     * query.
      */
     public void setQuery(CharSequence query, boolean submit) {
         mSearchSrcTextView.setText(query);
@@ -476,9 +471,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     }
 
     /**
-     * if show is true, this will enable voice search. If voice is not available on the device, this method call has not effect.
-     *
-     * @param show
+     * if show is true, this will enable voice search. If voice is not available on the device,
+     * this
+     * method call has not effect.
      */
     public void showVoice(boolean show) {
         if (show && isVoiceAvailable() && allowVoiceSearch) {
@@ -489,9 +484,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     }
 
     /**
-     * Call this method and pass the menu item so this class can handle click events for the Menu Item.
-     *
-     * @param menuItem
+     * Call this method and pass the menu item so this class can handle click events for the Menu
+     * Item.
      */
     public void setMenuItem(MenuItem menuItem) {
         this.mMenuItem = menuItem;
@@ -506,8 +500,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     /**
      * Return true if search is open
-     *
-     * @return
      */
     public boolean isSearchOpen() {
         return mIsSearchOpen;
@@ -607,8 +599,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     /**
      * Set this listener to listen to Query Change events.
-     *
-     * @param listener
      */
     public void setOnQueryTextListener(OnQueryTextListener listener) {
         mOnQueryChangeListener = listener;
@@ -616,8 +606,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     /**
      * Set this listener to listen to Search View open and close events
-     *
-     * @param listener
      */
     public void setOnSearchViewListener(SearchViewListener listener) {
         mSearchViewListener = listener;
@@ -625,8 +613,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     /**
      * Ellipsize suggestions longer than one line.
-     *
-     * @param ellipsize
      */
     public void setEllipsize(boolean ellipsize) {
         this.ellipsize = ellipsize;
