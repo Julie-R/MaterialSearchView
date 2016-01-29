@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -248,6 +249,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);    // quantity of results we want to receive
         if (mContext instanceof Activity) {
             ((Activity) mContext).startActivityForResult(intent, REQUEST_VOICE);
+        } else if (mContext instanceof ContextThemeWrapper) {
+            ((Activity) (((ContextThemeWrapper) mContext).getBaseContext())).startActivityForResult(intent, REQUEST_VOICE);
         }
     }
 
