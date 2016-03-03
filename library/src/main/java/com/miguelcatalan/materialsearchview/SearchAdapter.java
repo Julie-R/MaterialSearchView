@@ -67,20 +67,24 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
                 List<String> searchData = new ArrayList<>();
                 dataMap.clear();
                 if (!TextUtils.isEmpty(constraint)) {
-                    for (String string : history) {
-                        if (string.toLowerCase().startsWith(constraint.toString().toLowerCase())) {
-                            dataMap.put(string, SearchTypes.HISTORY_TYPE);
-                            searchData.add(string);
+                    if (history != null) {
+                        for (String string : history) {
+                            if (string.toLowerCase().startsWith(constraint.toString().toLowerCase())) {
+                                dataMap.put(string, SearchTypes.HISTORY_TYPE);
+                                searchData.add(string);
+                            }
                         }
                     }
-                    for (String string : suggestions) {
-                        if (string.toLowerCase().startsWith(constraint.toString().toLowerCase())
-                                && !dataMap.containsKey(string)) {
-                            dataMap.put(string, SearchTypes.SUGGESTION_TYPE);
-                            searchData.add(string);
+                    if (suggestions != null) {
+                        for (String string : suggestions) {
+                            if (string.toLowerCase().startsWith(constraint.toString().toLowerCase())
+                                    && !dataMap.containsKey(string)) {
+                                dataMap.put(string, SearchTypes.SUGGESTION_TYPE);
+                                searchData.add(string);
+                            }
                         }
                     }
-                } else {
+                } else if (history != null) {
                     for (String string : history) {
                         searchData.add(string);
                         dataMap.put(string, SearchTypes.HISTORY_TYPE);
