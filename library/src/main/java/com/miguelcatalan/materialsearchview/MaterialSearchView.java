@@ -438,7 +438,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * @param suggestions array of suggestions
      */
     public void setSuggestions(String[] suggestions, String[] history) {
-        if (suggestions != null && suggestions.length > 0) {
+        if ((suggestions != null && suggestions.length > 0) ||
+                (history != null && history.length > 0)) {
             mTintView.setVisibility(VISIBLE);
             final SearchAdapter adapter = new SearchAdapter(mContext, suggestions, history, suggestionIcon, historyIcon, ellipsize);
             setAdapter(adapter);
