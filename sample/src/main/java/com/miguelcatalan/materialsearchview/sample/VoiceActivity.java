@@ -1,10 +1,10 @@
 package com.miguelcatalan.materialsearchview.sample;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -30,7 +30,7 @@ public class VoiceActivity extends AppCompatActivity {
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
-        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions), getResources().getStringArray(R.array.query_history));
         searchView.setFilter(true, new MaterialSearchView.OnFilterClickListener() {
             @Override
             public void onFilterClick() {

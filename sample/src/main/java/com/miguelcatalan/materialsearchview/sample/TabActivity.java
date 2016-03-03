@@ -39,7 +39,7 @@ public class TabActivity extends AppCompatActivity {
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setVoiceSearch(false);
         searchView.setCursorDrawable(R.drawable.custom_cursor);
-        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions), null);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

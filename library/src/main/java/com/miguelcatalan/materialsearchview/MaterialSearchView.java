@@ -77,6 +77,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     private boolean allowVoiceSearch;
     private Drawable suggestionIcon;
+    private Drawable historyIcon;
 
     private Context mContext;
 
@@ -140,6 +141,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
             if (a.hasValue(R.styleable.MaterialSearchView_searchSuggestionIcon)) {
                 setSuggestionIcon(a.getDrawable(R.styleable.MaterialSearchView_searchSuggestionIcon));
+            }
+
+            if (a.hasValue(R.styleable.MaterialSearchView_searchHistoryIcon)) {
+                setHistoryIcon(a.getDrawable(R.styleable.MaterialSearchView_searchHistoryIcon));
             }
 
             a.recycle();
@@ -366,6 +371,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         }
     }
 
+    public void setHistoryIcon(Drawable drawable) {
+        historyIcon = drawable;
+    }
+
     public void setCursorDrawable(int drawable) {
         try {
             // https://github.com/android/platform_frameworks_base/blob/kitkat-release/core/java/android/widget/TextView.java#L562-564
@@ -428,10 +437,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      *
      * @param suggestions array of suggestions
      */
-    public void setSuggestions(String[] suggestions) {
+    public void setSuggestions(String[] suggestions, String[] history) {
         if (suggestions != null && suggestions.length > 0) {
             mTintView.setVisibility(VISIBLE);
-            final SearchAdapter adapter = new SearchAdapter(mContext, suggestions, suggestionIcon, ellipsize);
+            final SearchAdapter adapter = new SearchAdapter(mContext, suggestions, history, suggestionIcon, historyIcon, ellipsize);
             setAdapter(adapter);
 
             setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -453,7 +462,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             mSuggestionsListView.setVisibility(GONE);
         }
     }
-
 
     /**
      * Calling this will set the query to search text box. if submit is true, it'll submit the
