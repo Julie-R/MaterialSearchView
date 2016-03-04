@@ -238,7 +238,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             } else if (v == mSearchSrcTextView) {
                 showSuggestions();
             } else if (v == mTintView) {
-                closeSearch();
+                dismissSuggestions();
             } else if (v == mFilterBtn) {
                 onFilterClicked();
             }
