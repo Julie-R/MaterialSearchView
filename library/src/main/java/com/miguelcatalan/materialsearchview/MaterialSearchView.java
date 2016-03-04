@@ -716,6 +716,10 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 };
     }
 
+    public void setTintVisibility(int visibility) {
+        mTintView.setVisibility(visibility);
+    }
+
     public interface OnQueryTextListener {
 
         /**
