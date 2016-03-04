@@ -442,12 +442,16 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     }
 
     /**
-     * Get Adapter for suggestions list.
+     * Updates the history
+     * @param suggestions the suggestions list
+     * @param history the history list
      */
-    public void updateHistory(String[] history) {
+    public void updateHistory(String[] suggestions, String[] history) {
         SearchAdapter searchAdapter = (SearchAdapter) mSuggestionsListView.getAdapter();
         if (searchAdapter != null) {
             searchAdapter.setHistory(history);
+        } else {
+            setSuggestions(suggestions, history);
         }
     }
 
