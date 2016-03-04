@@ -215,6 +215,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 if (hasFocus) {
                     showKeyboard(mSearchSrcTextView);
                     showSuggestions();
+                    if (mTintView.getVisibility() != VISIBLE) {
+                        setTintVisibility(VISIBLE);
+                    }
                 }
             }
         });
