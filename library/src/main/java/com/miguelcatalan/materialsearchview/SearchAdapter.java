@@ -194,4 +194,9 @@ public class SearchAdapter extends BaseAdapter implements Filterable {
     private static SearchTypes getTypeFromOrdinal(int ordinal) {
         return SearchTypes.values()[ordinal];
     }
+
+    public void setHistory(String[] history) {
+        this.history = history;
+    }
+
 }
