@@ -580,6 +580,12 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mIsSearchOpen = true;
     }
 
+    public void focusTintView() {
+        if (mTintView.getVisibility() == VISIBLE) {
+            mTintView.requestFocus();
+        }
+    }
+
     private void setVisibleWithAnimation() {
         AnimationUtil.AnimationListener animationListener = new AnimationUtil.AnimationListener() {
             @Override
