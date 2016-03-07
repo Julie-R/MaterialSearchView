@@ -469,9 +469,11 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             mTintView.setVisibility(VISIBLE);
             final SearchAdapter adapter = new SearchAdapter(mContext, suggestions, history, suggestionIcon, historyIcon, ellipsize);
             setAdapter(adapter);
+
             if (startFilter) {
                 startFilter(mSearchSrcTextView.getText());
             }
+
             setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
