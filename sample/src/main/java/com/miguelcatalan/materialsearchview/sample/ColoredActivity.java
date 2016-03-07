@@ -29,7 +29,7 @@ public class ColoredActivity extends AppCompatActivity {
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setVoiceSearch(false);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
-        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions), null);
+        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions), null, true);
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
