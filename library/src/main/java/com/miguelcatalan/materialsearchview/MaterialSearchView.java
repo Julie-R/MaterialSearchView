@@ -438,11 +438,11 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     public void setAdapter(ListAdapter adapter) {
         mAdapter = adapter;
         mSuggestionsListView.setAdapter(adapter);
-        startFilter(mSearchSrcTextView.getText());
     }
 
     /**
      * Updates the history
+     *
      * @param history the history list
      * @return true if the history has been set
      */
@@ -460,14 +460,18 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * Set Adapter for suggestions list with the given suggestion array
      *
      * @param suggestions array of suggestions
+     * @param history     array of history
+     * @param startFilter true if startFilter() should be called
      */
-    public void setSuggestions(String[] suggestions, String[] history) {
+    public void setSuggestions(String[] suggestions, String[] history, boolean startFilter) {
         if ((suggestions != null && suggestions.length > 0) ||
                 (history != null && history.length > 0)) {
             mTintView.setVisibility(VISIBLE);
             final SearchAdapter adapter = new SearchAdapter(mContext, suggestions, history, suggestionIcon, historyIcon, ellipsize);
             setAdapter(adapter);
-
+            if (startFilter) {
+                startFilter(mSearchSrcTextView.getText());
+            }
             setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -578,12 +582,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             }
         }
         mIsSearchOpen = true;
-    }
-
-    public void focusTintView() {
-        if (mTintView.getVisibility() == VISIBLE) {
-            mTintView.requestFocus();
-        }
     }
 
     private void setVisibleWithAnimation() {
