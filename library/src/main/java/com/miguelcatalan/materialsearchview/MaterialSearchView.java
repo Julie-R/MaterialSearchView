@@ -76,6 +76,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private boolean ellipsize = false;
 
     private boolean dismissSuggestionsOnTintViewClick = false;
+    private boolean launchSearchOnSuggestionItemClick = false;
     private boolean isAnimationShown = false;
 
     private boolean allowVoiceSearch;
@@ -155,6 +156,12 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             if (a.hasValue(R.styleable.MaterialSearchView_dismissSuggestionsOnTintViewClick)) {
                 if (a.getBoolean(R.styleable.MaterialSearchView_dismissSuggestionsOnTintViewClick, false)) {
                     dismissSuggestionsOnTintViewClick = true;
+                }
+            }
+
+            if (a.hasValue(R.styleable.MaterialSearchView_launchSearchOnSuggestionItemClick)) {
+                if (a.getBoolean(R.styleable.MaterialSearchView_launchSearchOnSuggestionItemClick, false)) {
+                    launchSearchOnSuggestionItemClick = true;
                 }
             }
 
@@ -512,6 +519,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     setQuery((String) adapter.getItem(position), submit);
+                    if (launchSearchOnSuggestionItemClick) {
+                        onSubmitQuery();
+                    }
                 }
             });
         } else {
