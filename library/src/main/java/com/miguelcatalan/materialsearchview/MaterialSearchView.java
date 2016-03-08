@@ -75,6 +75,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     private boolean ellipsize = false;
 
+    private boolean dismissSuggestionsOnTintViewClick = false;
+
     private boolean allowVoiceSearch;
     private Drawable suggestionIcon;
     private Drawable historyIcon;
@@ -97,6 +99,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         initiateView();
 
         initStyle(attrs, defStyleAttr);
+
+        initClickListeners();
     }
 
     private void initStyle(AttributeSet attrs, int defStyleAttr) {
@@ -147,6 +151,12 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 setHistoryIcon(a.getDrawable(R.styleable.MaterialSearchView_searchHistoryIcon));
             }
 
+            if (a.hasValue(R.styleable.MaterialSearchView_dismissSuggestionsOnTintViewClick)) {
+                if (a.getBoolean(R.styleable.MaterialSearchView_dismissSuggestionsOnTintViewClick, false)) {
+                    dismissSuggestionsOnTintViewClick = true;
+                }
+            }
+
             a.recycle();
         }
     }
@@ -164,13 +174,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mEmptyBtn = (ImageButton) mSearchLayout.findViewById(R.id.action_empty_btn);
         mTintView = mSearchLayout.findViewById(R.id.transparent_view);
 
-        mSearchSrcTextView.setOnClickListener(mOnClickListener);
-        mBackBtn.setOnClickListener(mOnClickListener);
-        mVoiceBtn.setOnClickListener(mOnClickListener);
-        mEmptyBtn.setOnClickListener(mOnClickListener);
-        mTintView.setOnClickListener(mOnClickListener);
-        mFilterBtn.setOnClickListener(mOnClickListener);
-
         allowVoiceSearch = false;
 
         showVoice(true);
@@ -179,6 +182,15 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
         mSuggestionsListView.setVisibility(GONE);
         setAnimationDuration(AnimationUtil.ANIMATION_DURATION_MEDIUM);
+    }
+
+    private void initClickListeners() {
+        mSearchSrcTextView.setOnClickListener(mOnClickListener);
+        mBackBtn.setOnClickListener(mOnClickListener);
+        mVoiceBtn.setOnClickListener(mOnClickListener);
+        mEmptyBtn.setOnClickListener(mOnClickListener);
+        mTintView.setOnClickListener(mOnClickListener);
+        mFilterBtn.setOnClickListener(mOnClickListener);
     }
 
     private void initSearchView() {
@@ -240,8 +252,16 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 mSearchSrcTextView.setText(null);
             } else if (v == mSearchSrcTextView) {
                 showSuggestions();
+                if (dismissSuggestionsOnTintViewClick && mTintView.getVisibility() != VISIBLE) {
+                    setTintVisibility(VISIBLE);
+                }
             } else if (v == mTintView) {
-                closeSearch();
+                if (dismissSuggestionsOnTintViewClick) {
+                    dismissSuggestions();
+                    setTintVisibility(GONE);
+                } else {
+                    closeSearch();
+                }
             } else if (v == mFilterBtn) {
                 onFilterClicked();
             }
@@ -462,7 +482,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     /**
      * Set Adapter for history list with the given history array
      *
-     * @param history array of history
+     * @param history     array of history
      * @param startFilter true if startFilter() should be called
      */
     public void setHistory(String[] history, boolean startFilter) {

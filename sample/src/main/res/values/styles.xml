@@ -31,5 +31,8 @@
         <!-- Change icon for the history-->
         <item name="searchHistoryIcon">@drawable/ic_history</item>
 
+        <!-- Dismiss suggestions on tint view click -->
+        <item name="dismissSuggestionsOnTintViewClick">false</item>
+
     </style>
 </resources>
