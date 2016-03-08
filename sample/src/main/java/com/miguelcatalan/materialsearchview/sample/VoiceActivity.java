@@ -30,7 +30,8 @@ public class VoiceActivity extends AppCompatActivity {
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setVoiceSearch(true);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
-        searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions), getResources().getStringArray(R.array.query_history), true);
+        searchView.setSuggestionsAndHistory(getResources().getStringArray(R.array.query_suggestions),
+                getResources().getStringArray(R.array.query_history), true);
         searchView.setFilter(true, new MaterialSearchView.OnFilterClickListener() {
             @Override
             public void onFilterClick() {

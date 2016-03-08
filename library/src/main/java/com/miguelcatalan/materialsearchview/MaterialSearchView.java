@@ -240,14 +240,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 mSearchSrcTextView.setText(null);
             } else if (v == mSearchSrcTextView) {
                 showSuggestions();
-                if (mTintView.getVisibility() != VISIBLE) {
-                    setTintVisibility(VISIBLE);
-                }
             } else if (v == mTintView) {
-                dismissSuggestions();
-                if (mTintView.getVisibility() == VISIBLE) {
-                    setTintVisibility(GONE);
-                }
+                closeSearch();
             } else if (v == mFilterBtn) {
                 onFilterClicked();
             }
@@ -460,10 +454,29 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * Set Adapter for suggestions list with the given suggestion array
      *
      * @param suggestions array of suggestions
+     */
+    public void setSuggestions(String[] suggestions) {
+        setSuggestionsAndHistory(suggestions, null, true);
+    }
+
+    /**
+     * Set Adapter for history list with the given history array
+     *
+     * @param history array of history
+     * @param startFilter true if startFilter() should be called
+     */
+    public void setHistory(String[] history, boolean startFilter) {
+        setSuggestionsAndHistory(null, history, startFilter);
+    }
+
+    /**
+     * Set Adapter for suggestions/history list with the given suggestion and history arrays
+     *
+     * @param suggestions array of suggestions
      * @param history     array of history
      * @param startFilter true if startFilter() should be called
      */
-    public void setSuggestions(String[] suggestions, String[] history, boolean startFilter) {
+    public void setSuggestionsAndHistory(String[] suggestions, String[] history, boolean startFilter) {
         if ((suggestions != null && suggestions.length > 0) ||
                 (history != null && history.length > 0)) {
             mTintView.setVisibility(VISIBLE);
