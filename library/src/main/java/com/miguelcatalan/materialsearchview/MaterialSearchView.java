@@ -76,6 +76,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private boolean ellipsize = false;
 
     private boolean dismissSuggestionsOnTintViewClick = false;
+    private boolean isAnimationShown = false;
 
     private boolean allowVoiceSearch;
     private Drawable suggestionIcon;
@@ -425,7 +426,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * #setAdapter(ListAdapter)} before calling this.
      */
     public void showSuggestions() {
-        if (mAdapter != null && mAdapter.getCount() > 0 && mSuggestionsListView.getVisibility() == GONE) {
+        if (mAdapter != null && mAdapter.getCount() > 0 && mSuggestionsListView.getVisibility() == GONE && isAnimationShown) {
             mSuggestionsListView.setVisibility(VISIBLE);
         }
     }
@@ -623,6 +624,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         AnimationUtil.AnimationListener animationListener = new AnimationUtil.AnimationListener() {
             @Override
             public boolean onAnimationStart(View view) {
+                isAnimationShown = false;
+                dismissSuggestions();
                 return false;
             }
 
@@ -631,6 +634,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 if (mSearchViewListener != null) {
                     mSearchViewListener.onSearchViewShown();
                 }
+                isAnimationShown = true;
+                showSuggestions();
                 return false;
             }
 
