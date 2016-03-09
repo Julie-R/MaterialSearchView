@@ -84,6 +84,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private Drawable historyIcon;
 
     private Context mContext;
+    private SearchAdapter mSearchAdapter;
+    private String[] mHistory;
+    private String[] mSuggestions;
 
     public MaterialSearchView(Context context) {
         this(context, null);
@@ -456,28 +459,13 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     }
 
     /**
-     * Updates the history
-     *
-     * @param history the history list
-     * @return true if the history has been set
-     */
-    public boolean updateHistory(String[] history) {
-        SearchAdapter searchAdapter = (SearchAdapter) mSuggestionsListView.getAdapter();
-        if (searchAdapter != null) {
-            searchAdapter.setHistory(history);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Set Adapter for suggestions list with the given suggestion array
      *
      * @param suggestions array of suggestions
      */
     public void setSuggestions(String[] suggestions) {
-        setSuggestionsAndHistory(suggestions, null, true);
+        mSuggestions = suggestions;
+        setSuggestionsAndHistory(suggestions, mHistory, true);
     }
 
     /**
@@ -487,7 +475,13 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * @param startFilter true if startFilter() should be called
      */
     public void setHistory(String[] history, boolean startFilter) {
-        setSuggestionsAndHistory(null, history, startFilter);
+        mHistory = history;
+        if (mSearchAdapter != null) {
+            mSearchAdapter.setHistory(history);
+            mSearchAdapter.notifyDataSetChanged();
+        } else {
+            setSuggestionsAndHistory(mSuggestions, mHistory, startFilter);
+        }
     }
 
     /**
@@ -497,7 +491,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * @param history     array of history
      * @param startFilter true if startFilter() should be called
      */
-    public void setSuggestionsAndHistory(String[] suggestions, String[] history, boolean startFilter) {
+    private void setSuggestionsAndHistory(String[] suggestions, String[] history, boolean startFilter) {
+
         if ((suggestions != null && suggestions.length > 0) ||
                 (history != null && history.length > 0)) {
             mTintView.setVisibility(VISIBLE);
