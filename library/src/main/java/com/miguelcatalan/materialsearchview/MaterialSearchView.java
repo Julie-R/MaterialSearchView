@@ -72,6 +72,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     private SavedState mSavedState;
     private boolean submit = false;
+    private boolean isSearchLaunchedBySuggestionClick = false;
 
     private boolean ellipsize = false;
 
@@ -511,6 +512,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     setQuery((String) adapter.getItem(position), submit);
+                    isSearchLaunchedBySuggestionClick = true;
                 }
             });
         } else {
@@ -534,9 +536,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     public void setQuery(CharSequence query, boolean submit) {
         mSearchSrcTextView.setText(query);
         if (query != null) {
-            if (!submit) {
-                mSearchSrcTextView.setSelection(mSearchSrcTextView.length());
-            }
+            mSearchSrcTextView.setSelection(mSearchSrcTextView.length());
             mUserQuery = query;
         }
         if (submit && !TextUtils.isEmpty(query)) {
@@ -698,7 +698,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
 
     @Override
     public void onFilterComplete(int count) {
-        if (count > 0) {
+        if (isSearchLaunchedBySuggestionClick) {
+            isSearchLaunchedBySuggestionClick = false;
+        } else if (count > 0) {
             showSuggestions();
         } else {
             dismissSuggestions();

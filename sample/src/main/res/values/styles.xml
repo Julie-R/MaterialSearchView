@@ -32,6 +32,6 @@
         <item name="searchHistoryIcon">@drawable/ic_history</item>
 
         <!-- Dismiss suggestions on tint view click -->
-        <item name="dismissSuggestionsOnTintViewClick">false</item>
+        <item name="dismissSuggestionsOnTintViewClick">true</item>
     </style>
 </resources>
