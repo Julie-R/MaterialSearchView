@@ -10,6 +10,7 @@
         <attr name="searchHistoryIcon" format="integer" />
         <attr name="searchFilterIcon" format="integer" />
         <attr name="dismissSuggestionsOnTintViewClick" format="boolean" />
+        <attr name="launchSearchOnSuggestionItemClick" format="boolean" />
         <attr name="android:hint" />
         <attr name="android:textColor" />
         <attr name="android:textColorHint" />
