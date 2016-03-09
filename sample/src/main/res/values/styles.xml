@@ -33,9 +33,5 @@
 
         <!-- Dismiss suggestions on tint view click -->
         <item name="dismissSuggestionsOnTintViewClick">false</item>
-
-        <!-- Launch search on suggestion item click -->
-        <item name="launchSearchOnSuggestionItemClick">false</item>
-
     </style>
 </resources>
