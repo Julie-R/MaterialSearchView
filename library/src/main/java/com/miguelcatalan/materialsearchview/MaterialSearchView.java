@@ -535,7 +535,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     public void setQuery(CharSequence query, boolean submit) {
         mSearchSrcTextView.setText(query);
         if (query != null) {
-            mSearchSrcTextView.setSelection(mSearchSrcTextView.length());
+            if (!submit) {
+                mSearchSrcTextView.setSelection(mSearchSrcTextView.length());
+            }
             mUserQuery = query;
         }
         if (submit && !TextUtils.isEmpty(query)) {

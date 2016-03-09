@@ -29,6 +29,7 @@ public class VoiceActivity extends AppCompatActivity {
 
         searchView = (MaterialSearchView) findViewById(R.id.search_view);
         searchView.setVoiceSearch(true);
+        searchView.setSubmitOnClick(true);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
         searchView.setSuggestionsAndHistory(getResources().getStringArray(R.array.query_suggestions),
                 getResources().getStringArray(R.array.query_history), true);
