@@ -84,7 +84,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
     private Drawable historyIcon;
 
     private Context mContext;
-    private SearchAdapter mSearchAdapter;
     private String[] mHistory;
     private String[] mSuggestions;
 
@@ -263,6 +262,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                     setTintVisibility(VISIBLE);
                 }
             } else if (v == mTintView) {
+                if (mSearchViewListener != null) {
+                    mSearchViewListener.onTintViewClick();
+                }
                 if (dismissSuggestionsOnTintViewClick) {
                     dismissSuggestions();
                     setTintVisibility(GONE);
@@ -479,9 +481,12 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      */
     public void setHistory(String[] history, boolean startFilter) {
         mHistory = history;
-        if (mSearchAdapter != null) {
-            mSearchAdapter.setHistory(history);
-            mSearchAdapter.notifyDataSetChanged();
+        if (mAdapter instanceof SearchAdapter) {
+            SearchAdapter searchAdapter = (SearchAdapter) mAdapter;
+            if (searchAdapter != null) {
+                searchAdapter.setHistory(history);
+                searchAdapter.notifyDataSetChanged();
+            }
         } else {
             setSuggestionsAndHistory(mSuggestions, mHistory, startFilter);
         }
@@ -820,6 +825,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         void onSearchViewClosed();
 
         void onSearchViewAnimationEnded();
+
+        void onTintViewClick();
     }
 
     public interface OnFilterClickListener {

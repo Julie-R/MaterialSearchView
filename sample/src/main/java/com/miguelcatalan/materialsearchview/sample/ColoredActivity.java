@@ -60,6 +60,11 @@ public class ColoredActivity extends AppCompatActivity {
             public void onSearchViewAnimationEnded() {
                 //Do some magic
             }
+
+            @Override
+            public void onTintViewClick() {
+                //Do some magic
+            }
         });
     }
 
