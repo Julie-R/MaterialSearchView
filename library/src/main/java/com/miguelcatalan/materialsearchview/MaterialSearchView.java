@@ -631,7 +631,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             @Override
             public boolean onAnimationEnd(View view) {
                 if (mSearchViewListener != null) {
-                    mSearchViewListener.onSearchViewShown();
+                    mSearchViewListener.onSearchViewAnimationEnded();
                 }
                 isAnimationShown = true;
                 showSuggestions();
@@ -818,6 +818,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         void onSearchViewShown();
 
         void onSearchViewClosed();
+
+        void onSearchViewAnimationEnded();
     }
 
     public interface OnFilterClickListener {
