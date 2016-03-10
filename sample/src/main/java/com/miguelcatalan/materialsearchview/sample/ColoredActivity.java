@@ -65,6 +65,11 @@ public class ColoredActivity extends AppCompatActivity {
             public void onTintViewClick() {
                 //Do some magic
             }
+
+            @Override
+            public void onEmptyButtonClick() {
+                //Do some magic
+            }
         });
     }
 

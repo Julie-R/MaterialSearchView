@@ -827,6 +827,8 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         void onSearchViewAnimationEnded();
 
         void onTintViewClick();
+
+        void onEmptyButtonClick();
     }
 
     public interface OnFilterClickListener {
