@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.speech.RecognizerIntent;
+import android.support.v4.view.ViewCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -438,6 +439,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      */
     public void showSuggestions() {
         if (mAdapter != null && mAdapter.getCount() > 0 && mSuggestionsListView.getVisibility() == GONE && isAnimationShown) {
+            ViewCompat.jumpDrawablesToCurrentState(mSuggestionsListView);
             mSuggestionsListView.setVisibility(VISIBLE);
         }
     }
@@ -514,7 +516,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                 startFilter(mSearchSrcTextView.getText());
             }
 
-            setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            mSuggestionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     setQuery((String) adapter.getItem(position), submit);
