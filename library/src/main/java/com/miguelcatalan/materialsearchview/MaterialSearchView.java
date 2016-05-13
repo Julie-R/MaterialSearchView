@@ -603,6 +603,11 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         showSearch(true);
     }
 
+    public void showSearchWithoutAnimation() {
+        showSearch(false);
+        mTintView.performClick();
+    }
+
     /**
      * Open Search View. If animate is true, Animate the showing of the view.
      *
