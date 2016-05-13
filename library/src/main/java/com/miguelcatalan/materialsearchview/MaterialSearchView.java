@@ -603,9 +603,12 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         showSearch(true);
     }
 
-    public void showSearchWithoutAnimation() {
-        showSearch(false);
-        mTintView.performClick();
+    /**
+     * Open Search View. This will animate the showing of the view without showing suggestions.
+     */
+    public void showSearchWithoutSuggestions() {
+        showSearch(true, false);
+        setTintVisibility(View.GONE);
     }
 
     /**
@@ -614,6 +617,16 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
      * @param animate true for animate
      */
     public void showSearch(boolean animate) {
+        showSearch(animate, true);
+    }
+
+    /**
+     * Open Search View. If animate is true, Animate the showing of the view.
+     *
+     * @param animate                       true for animate
+     * @param showSuggestionsAfterAnimation true for showing suggestions
+     */
+    public void showSearch(boolean animate, boolean showSuggestionsAfterAnimation) {
         if (isSearchOpen()) {
             return;
         }
@@ -623,7 +636,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mSearchSrcTextView.requestFocus();
 
         if (animate) {
-            setVisibleWithAnimation();
+            setVisibleWithAnimation(showSuggestionsAfterAnimation);
 
         } else {
             mSearchLayout.setVisibility(VISIBLE);
@@ -634,7 +647,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
         mIsSearchOpen = true;
     }
 
-    private void setVisibleWithAnimation() {
+    private void setVisibleWithAnimation(final boolean showSuggestions) {
         AnimationUtil.AnimationListener animationListener = new AnimationUtil.AnimationListener() {
             @Override
             public boolean onAnimationStart(View view) {
@@ -649,7 +662,9 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
                     mSearchViewListener.onSearchViewAnimationEnded();
                 }
                 isAnimationShown = true;
-                showSuggestions();
+                if (showSuggestions) {
+                    showSuggestions();
+                }
                 return false;
             }
 
